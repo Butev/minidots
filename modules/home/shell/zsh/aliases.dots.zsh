@@ -1,0 +1,1 @@
+alias rebuild='home-manager switch --flake .#max@nixos-laptop'
