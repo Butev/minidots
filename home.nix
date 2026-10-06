@@ -43,6 +43,11 @@ in {
   # Required for standalone home-manager
   programs.home-manager.enable = true;
 
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = true;
+  };
+
   programs.git = {
     enable = true;
     settings.user = {
