@@ -15,6 +15,7 @@
     git = "${dotsVscode}/features/git.nix";
     markdown = "${dotsVscode}/features/markdown.nix";
     better-comments = "${dotsVscode}/features/better-comments.nix";
+    toml = "${dotsVscode}/features/toml.nix";
     json = "${dotsVscode}/features/json.nix";
     kdl = "${dotsVscode}/features/kdl.nix";
     theme = "${dotsVscode}/features/theme.nix";
