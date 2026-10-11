@@ -38,6 +38,7 @@
 
   groups = import "${dotsVscode}/groups.nix" {inherit features;};
 in {
+  imports = ["${dotsVscode}/profile-ui-state.nix"];
   programs.vscode = {
     enable = true;
     # Standalone home-manager has no path to NixOS's security.wrappers, so the
