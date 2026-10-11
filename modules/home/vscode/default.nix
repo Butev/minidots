@@ -10,6 +10,11 @@
   globalKeybindings = import "${dotsVscode}/keybindings.nix";
   vscodeLib = import "${dotsVscode}/lib.nix" {inherit lib globalSettings globalKeybindings;};
 
+  # if you ever need to update this yourself, go to:
+  # https://github.com/thecathe/dots/blob/main/modules/home/vscode/default.nix
+  # and add which ever features are needed for the group in:
+  # https://github.com/thecathe/dots/blob/main/modules/home/vscode/groups.nix
+  # corresponding to the profile you want to use (i.e., profile for language)
   features = builtins.mapAttrs (_: path: import path {inherit pkgs config;}) {
     nix = "${dotsVscode}/features/nix.nix";
     git = "${dotsVscode}/features/git.nix";
@@ -25,6 +30,7 @@
     java = "${dotsVscode}/features/java.nix";
     python = "${dotsVscode}/features/python.nix";
     vsrocq = "${dotsVscode}/features/vsrocq.nix";
+    haskell = "${dotsVscode}/features/haskell.nix";
     ocaml = "${dotsVscode}/features/ocaml.nix"; # rocqGroup extends ocamlGroup - needed even though not asked for by name
     disable-breakpoint = "${dotsVscode}/features/disable-breakpoint.nix";
     unicode-math-symbols = "${dotsVscode}/features/unicode-math-symbols.nix";
@@ -50,6 +56,7 @@ in {
       java = (vscodeLib.mkProfile groups.java).profile;
       python = (vscodeLib.mkProfile groups.python).profile;
       rocq = (vscodeLib.mkProfile groups.rocq).profile;
+      haskell = (vscodeLib.mkProfile groups.haskell).profile;
     };
   };
 }
