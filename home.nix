@@ -7,6 +7,7 @@
     shell
     nvim
     vscode
+    globalprotect
   ];
 
   home.username = "max";
@@ -22,6 +23,15 @@
   dots.vscode = {
     enable = true;
     profiles = ["java" "python" "rocq" "haskell"];
+  };
+
+  # The University of Kent's VPN: `globalprotect up | down | status`. `up`
+  # asks for your sudo password (the tunnel needs root), opens the browser to
+  # log in, and then stays running in that terminal until Ctrl-C or
+  # `globalprotect down`.
+  dots.globalprotect = {
+    enable = true;
+    portal = "vox.kent.ac.uk";
   };
 
   programs.gh = {
