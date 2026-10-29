@@ -40,6 +40,12 @@ skipped while VS Code is running.
   that terminal. Stop it with Ctrl-C or `globalprotect down` from another terminal. `globalprotect status` says
   whether it is up.
 
+## Where the clone lives
+
+The repo is expected at `~/Documents/git/Butev/minidots`, with `~/dots` linking to it (see below). The first is named
+in `dots.nixd.flake` in `home.nix`, which lets the Nix language server in VS Code and neovim complete home-manager
+options from this flake; it has to be the real path, not the `~/dots` link. If you move the clone, change that line.
+
 ## Why `modules/home/shell/zsh/` is here
 
 dots' zsh module keeps its aliases (`alias-set NAME VALUE`) and directory shortcuts (`dhash-set NAME DIR`) in

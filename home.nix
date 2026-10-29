@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   inputs,
   ...
@@ -23,6 +24,15 @@
   dots.vscode = {
     enable = true;
     profiles = ["java" "python" "rocq" "haskell"];
+  };
+
+  # Where nixd (the Nix language server in VS Code and neovim) finds this
+  # flake: it completes home-manager options from it and takes nixpkgs from
+  # its `nixpkgs` input. The real path of the clone, not the ~/dots link,
+  # because builtins.getFlake rejects symlinks.
+  dots.nixd = {
+    flake = "${config.home.homeDirectory}/Documents/git/Butev/minidots";
+    homeConfiguration = "max@nixos-laptop";
   };
 
   # The University of Kent's VPN: `globalprotect up | down | status`. `up`
