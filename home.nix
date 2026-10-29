@@ -1,12 +1,14 @@
 {
+  config,
   pkgs,
   inputs,
   ...
 }: {
-  imports = [
-    "${inputs.cathe-dots}/modules/home/shell"
-    "${inputs.cathe-dots}/modules/home/nvim"
-    ./modules/home
+  imports = with inputs.cathe-dots.homeModules; [
+    shell
+    nvim
+    vscode
+    globalprotect
   ];
 
   home.username = "max";
@@ -15,6 +17,32 @@
 
   # Required for standalone home-manager
   programs.home-manager.enable = true;
+
+  # VS Code with cathe's settings, keybindings and extensions. The default
+  # profile is always built; these are the others. To add or drop one, edit
+  # the list (the names are those in dots' modules/home/vscode/groups.nix).
+  dots.vscode = {
+    enable = true;
+    profiles = ["java" "python" "rocq" "haskell"];
+  };
+
+  # Where nixd (the Nix language server in VS Code and neovim) finds this
+  # flake: it completes home-manager options from it and takes nixpkgs from
+  # its `nixpkgs` input. The real path of the clone, not the ~/dots link,
+  # because builtins.getFlake rejects symlinks.
+  dots.nixd = {
+    flake = "${config.home.homeDirectory}/Documents/git/Butev/minidots";
+    homeConfiguration = "max@nixos-laptop";
+  };
+
+  # The University of Kent's VPN: `globalprotect up | down | status`. `up`
+  # asks for your sudo password (the tunnel needs root), opens the browser to
+  # log in, and then stays running in that terminal until Ctrl-C or
+  # `globalprotect down`.
+  dots.globalprotect = {
+    enable = true;
+    portal = "vox.kent.ac.uk";
+  };
 
   programs.gh = {
     enable = true;
@@ -37,6 +65,9 @@
     tmux
     nix
     nixfmt
+    nixd # Nix language server, started by name from VS Code and neovim
+    alejandra # the formatter those editors (and nixd) call
+    discord # unfree, allowed by config.allowUnfree in flake.nix
   ];
 
   home.sessionVariables = {

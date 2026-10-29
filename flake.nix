@@ -8,13 +8,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # cathe's shared config. Used through its `homeModules` (shell, nvim,
+    # vscode, globalprotect), which carry what they need from dots' own inputs
+    # (e.g. the vscode extensions), so nothing else is added here. Pick up
+    # changes with `nix flake update cathe-dots`.
     cathe-dots = {
       url = "github:thecathe/dots";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # vscode extensions
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -22,8 +21,6 @@
   outputs = {
     nixpkgs,
     home-manager,
-    cathe-dots,
-    nix-vscode-extensions,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -33,9 +30,6 @@
         inherit system;
         # config.allowUnfreePredicate = unfreePredicate;
         config.allowUnfree = true;
-        overlays = [
-          inputs.nix-vscode-extensions.overlays.default
-        ];
       };
       extraSpecialArgs = {inherit inputs;};
       modules = [./home.nix];
