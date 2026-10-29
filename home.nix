@@ -53,8 +53,13 @@
     enable = true;
     settings.user = {
       name = "Butev";
-      email = "utevb1@gmail.com";
+      # The email is deliberately not in this (public) repo: git reads it from
+      # the file included below, made once per machine (see the README). Until
+      # then a commit fails, instead of git guessing an address from the
+      # hostname.
+      useConfigOnly = true;
     };
+    includes = [{path = "${config.home.homeDirectory}/.config/git/identity";}];
   };
 
   home.packages = with pkgs; [
