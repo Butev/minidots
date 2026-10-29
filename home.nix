@@ -55,6 +55,8 @@
     tmux
     nix
     nixfmt
+    nixd # Nix language server, started by name from VS Code and neovim
+    alejandra # the formatter those editors (and nixd) call
     discord # unfree, allowed by config.allowUnfree in flake.nix
   ];
 
