@@ -45,6 +45,7 @@
     tmux
     nix
     nixfmt
+    discord # unfree, allowed by config.allowUnfree in flake.nix
   ];
 
   home.sessionVariables = {
