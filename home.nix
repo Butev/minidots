@@ -3,10 +3,10 @@
   inputs,
   ...
 }: {
-  imports = [
-    "${inputs.cathe-dots}/modules/home/shell"
-    "${inputs.cathe-dots}/modules/home/nvim"
-    ./modules/home
+  imports = with inputs.cathe-dots.homeModules; [
+    shell
+    nvim
+    vscode
   ];
 
   home.username = "max";
@@ -15,6 +15,14 @@
 
   # Required for standalone home-manager
   programs.home-manager.enable = true;
+
+  # VS Code with cathe's settings, keybindings and extensions. The default
+  # profile is always built; these are the others. To add or drop one, edit
+  # the list (the names are those in dots' modules/home/vscode/groups.nix).
+  dots.vscode = {
+    enable = true;
+    profiles = ["java" "python" "rocq" "haskell"];
+  };
 
   programs.gh = {
     enable = true;
