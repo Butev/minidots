@@ -1,38 +1,48 @@
-# home-manager-user template
+# minidots
 
-A standalone home-manager flake for a new user on a shared NixOS host (e.g.
-`nixos-laptop`). It's fully independent of `thecathe/dots` - no shared
-modules, no shared identity - so it works the same whether you keep it here
-or move it to your own repo.
+The home-manager config for `max` on `nixos-laptop`. It is a standalone flake: applying it only touches `max`'s own
+home directory, never the system configuration.
 
-## Setup
+It started from the `home-manager-user` template in [thecathe/dots](https://github.com/thecathe/dots) and builds on
+dots' shared modules, which it takes as the flake input `cathe-dots`.
 
-1. Scaffold it into a new directory:
+## What it sets up
 
-   ```sh
-   mkdir my-dots && cd my-dots
-   nix flake init -t github:thecathe/dots#home-manager-user
-   ```
+| Part | From | Where |
+| --- | --- | --- |
+| zsh, starship, tmux, kitty, zoxide, direnv | `cathe-dots.homeModules.shell` | `home.nix` |
+| Neovim | `cathe-dots.homeModules.nvim` | `home.nix` |
+| VS Code, with the profiles `default`, `java`, `python`, `rocq`, `haskell` | `cathe-dots.homeModules.vscode` | `dots.vscode` in `home.nix` |
+| `globalprotect up \| down \| status` for the Kent VPN | `cathe-dots.homeModules.globalprotect` | `dots.globalprotect` in `home.nix` |
+| Discord, git, gh, and a few command-line tools | nixpkgs | `home.nix` |
 
-2. Edit `flake.nix` and `home.nix`, replacing every `NEW_USER`/`NEW_HOST`
-   with your actual Linux username and the hostname of the machine you're
-   setting up (e.g. `max`/`nixos-laptop`). Set your own `git` name/email in
-   `home.nix`, and add/remove packages and other home-manager options as you
-   like.
+## Applying it
 
-3. Push it to your own GitHub repo, and add your own SSH key to your own
-   GitHub account.
+From this directory, as `max`:
 
-4. Apply it, from your own account on the machine:
+```sh
+home-manager switch --flake .#max@nixos-laptop
+```
 
-   ```sh
-   nix run home-manager/master -- switch --flake .#<you>@<host>
-   # or, once pushed:
-   nix run home-manager/master -- switch --flake github:<you>/<your-repo>#<you>@<host>
-   ```
+(`rebuild` is an alias for exactly that.) The very first time, before `home-manager` exists, use
+`nix run home-manager/master -- switch --flake .#max@nixos-laptop` instead.
 
-   No package needs installing first - flakes are already enabled system-wide.
+Quit VS Code before switching. Each profile's window layout is seeded from the default profile, and that step is
+skipped while VS Code is running.
 
-5. Re-run the same `switch` command any time you want to apply changes. This
-   never touches the system-level (`sudo nixos-rebuild`) configuration, and
-   the person who manages that config never needs to touch your repo either.
+## Everyday changes
+
+- **VS Code profiles:** edit `dots.vscode.profiles` in `home.nix`. The names available are those in dots'
+  [`groups.nix`](https://github.com/thecathe/dots/blob/main/modules/home/vscode/groups.nix). `default` is always built.
+- **Updating dots:** `nix flake update cathe-dots`, then switch. Updating the pin is the only way dots' changes reach
+  this config, so it happens when you choose.
+- **VPN:** `globalprotect up` asks for your sudo password, opens the browser for the login, and then stays running in
+  that terminal. Stop it with Ctrl-C or `globalprotect down` from another terminal. `globalprotect status` says
+  whether it is up.
+
+## Why `modules/home/shell/zsh/` is here
+
+dots' zsh module keeps its aliases (`alias-set NAME VALUE`) and directory shortcuts (`dhash-set NAME DIR`) in
+`~/dots/modules/home/shell/zsh/`. So this repo is linked at `~/dots` on `max`'s account, and the two tracked files
+`aliases.dots.zsh` and `dirs.dots.zsh` live here. Adding `--local` (`alias-set --local ...`) writes to the untracked
+`*.local.zsh` files instead.
