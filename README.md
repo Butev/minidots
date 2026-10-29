@@ -30,6 +30,18 @@ home-manager switch --flake .#max@nixos-laptop
 Quit VS Code before switching. Each profile's window layout is seeded from the default profile, and that step is
 skipped while VS Code is running.
 
+## Your git email (once per machine)
+
+The email git commits with is not kept in this public repo. Set it once, in a file outside it:
+
+```sh
+git config --file ~/.config/git/identity user.email you@example.com
+```
+
+Until then `git commit` stops with "Author identity unknown", rather than guessing an address from the hostname.
+GitHub has a private `<id>+<username>@users.noreply.github.com` address (Settings, Emails) if you would rather not
+use your own.
+
 ## Everyday changes
 
 - **VS Code profiles:** edit `dots.vscode.profiles` in `home.nix`. The names available are those in dots'
