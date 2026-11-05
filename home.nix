@@ -23,7 +23,7 @@
   # the list (the names are those in dots' modules/home/vscode/groups.nix).
   dots.vscode = {
     enable = true;
-    profiles = ["java" "python" "rocq" "haskell"];
+    profiles = ["java" "python" "rocq" "haskell" "ocaml" "latex"];
   };
 
   # Where nixd (the Nix language server in VS Code and neovim) finds this
