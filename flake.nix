@@ -30,6 +30,12 @@
         inherit system;
         # config.allowUnfreePredicate = unfreePredicate;
         config.allowUnfree = true;
+        # Zotero 10 runs on Firefox 140 ESR (nixpkgs ships it prebuilt, just for
+        # Zotero), which is end-of-life and so flagged insecure. Exactly that
+        # one package is allowed; it is only Zotero's own embedded engine, not
+        # the Firefox you browse with. Drop this once Zotero 11 reaches
+        # nixpkgs: the assertion on pkgs.zotero in home.nix says when.
+        config.permittedInsecurePackages = ["firefox-esr-140-bin-unwrapped-140.17.0esr"];
       };
       extraSpecialArgs = {inherit inputs;};
       modules = [./home.nix];

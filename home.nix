@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
@@ -74,6 +75,32 @@
     alejandra # the formatter those editors (and nixd) call
     discord # unfree, allowed by config.allowUnfree in flake.nix
     zotero # citation manager
+  ];
+
+  # TEMPORARY. Zotero 10 only builds against Firefox 140 ESR, which is
+  # end-of-life, so flake.nix permits that one package as insecure. Zotero 11
+  # is meant to move to Firefox ESR 153; when nixpkgs gets it, this fails the
+  # rebuild so the exception does not linger unnoticed.
+  assertions = [
+    {
+      assertion = lib.versionOlder pkgs.zotero.version "11";
+      message = ''
+        nixpkgs now has Zotero ${pkgs.zotero.version}, which should no longer need the
+        end-of-life Firefox 140 ESR, so the temporary exception for it can go:
+
+          1. flake.nix: remove `config.permittedInsecurePackages` (the
+             "firefox-esr-140-bin-unwrapped-..." entry) from the nixpkgs import.
+          2. home.nix: delete this assertion (the `assertions` block).
+          3. README.md: delete the "Zotero and the end-of-life Firefox" section.
+          4. Rebuild. If it still fails with "marked as insecure", Zotero ${pkgs.zotero.version}
+             is still on Firefox 140: check `nix log` and nixpkgs'
+             pkgs/by-name/zo/zotero/package.nix, then raise the version in this
+             assertion instead.
+
+        Nothing in cathe-dots (the shared modules) needs to change; Zotero lives
+        only in this repo.
+      '';
+    }
   ];
 
   home.sessionVariables = {
