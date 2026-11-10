@@ -52,6 +52,16 @@ use your own.
   that terminal. Stop it with Ctrl-C or `globalprotect down` from another terminal. `globalprotect status` says
   whether it is up.
 
+## Zotero and the end-of-life Firefox
+
+Zotero 10 is built on Firefox's engine and only works with Firefox 140 ESR, which reached end-of-life on 2026-10-13.
+nixpkgs therefore flags the copy it ships for Zotero as insecure, and `flake.nix` permits exactly that package
+(`config.permittedInsecurePackages`). It is Zotero's own embedded engine, separate from the Firefox you browse with, but
+it does render web pages Zotero saves and the PDFs and EPUBs you open in it, so avoid opening untrusted ones there.
+
+This is temporary. Zotero 11 is meant to move to Firefox ESR 153. Once nixpkgs has it, the rebuild fails on purpose
+with the steps for removing the exception (an `assertions` entry in `home.nix`).
+
 ## Where the clone lives
 
 The repo is expected at `~/Documents/git/Butev/minidots`, with `~/dots` linking to it (see below). The first is named
