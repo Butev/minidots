@@ -87,11 +87,11 @@
         "vscode-forester": "vscode-forester"
       },
       "locked": {
-        "lastModified": 1793878789,
-        "narHash": "sha256-z6kFmMqsNHglUwGKfnWOvpId4Maqo5Tq2ySmSrWIyJU=",
+        "lastModified": 1794249424,
+        "narHash": "sha256-9VuSmb98x+GYoek0uJK8cKbYCLHj4bUaSMOghxjAMJU=",
         "owner": "thecathe",
         "repo": "dots",
-        "rev": "2379ec5fb8a00109fa9d4fa93e4ed328d34d9256",
+        "rev": "97030913ea82e6cf3223a0b33169f9c434d93711",
         "type": "github"
       },
       "original": {
