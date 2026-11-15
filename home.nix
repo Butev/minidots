@@ -10,6 +10,7 @@
     nvim
     vscode
     globalprotect
+    flameshot
   ];
 
   home.username = "max";
