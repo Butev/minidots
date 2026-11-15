@@ -45,6 +45,8 @@
     portal = "vox.kent.ac.uk";
   };
 
+  dots.flameshot.enable = true;
+
   programs.gh = {
     enable = true;
     gitCredentialHelper.enable = true;
