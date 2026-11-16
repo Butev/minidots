@@ -11,6 +11,8 @@
     vscode
     globalprotect
     flameshot
+    # This repo's own tuning of the VS Code settings above (not from dots).
+    ./modules/home/vscode
   ];
 
   home.username = "max";
