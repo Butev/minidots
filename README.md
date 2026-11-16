@@ -46,6 +46,14 @@ use your own.
 
 - **VS Code profiles:** edit `dots.vscode.profiles` in `home.nix`. The names available are those in dots'
   [`groups.nix`](https://github.com/thecathe/dots/blob/main/modules/home/vscode/groups.nix). `default` is always built.
+- **Tuning dots' VS Code settings:** this repo's own changes to them live in `modules/home/vscode/`, one file per part.
+  `default.nix` explains how they combine with dots' settings and lists the files; start there to see how to customise
+  more of what dots provides.
+- **Grammar and spell checking (LTeX+, `latex` profile):** edit `modules/home/vscode/ltex.nix`; the commented lines
+  there are examples (language, dictionary, disabled rules, LaTeX commands to ignore). They are added to dots' settings
+  for that profile, so only a key dots itself sets (`ltex.enabled`, `ltex.java.path`, `ltex.ltex-ls.path`) needs
+  `lib.mkForce`. These land in a Nix-managed, read-only `settings.json`; the extension's default is to save quick fixes
+  such as "Add to dictionary" to files in the workspace instead.
 - **Updating dots:** `nix flake update cathe-dots`, then switch. Updating the pin is the only way dots' changes reach
   this config, so it happens when you choose.
 - **VPN:** `globalprotect up` asks for your sudo password, opens the browser for the login, and then stays running in
@@ -74,3 +82,7 @@ dots' zsh module keeps its aliases (`alias-set NAME VALUE`) and directory shortc
 `~/dots/modules/home/shell/zsh/`. So this repo is linked at `~/dots` on `max`'s account, and the two tracked files
 `aliases.dots.zsh` and `dirs.dots.zsh` live here. Adding `--local` (`alias-set --local ...`) writes to the untracked
 `*.local.zsh` files instead.
+
+The rest of `modules/home/` is a different kind of thing: `modules/home/vscode/` is this repo's own home-manager module,
+imported from `home.nix` and evaluated by Nix, not read at runtime like the zsh files. It is laid out the way dots lays
+out its own modules (`modules/home/<name>/default.nix`), so the two are easy to compare.
